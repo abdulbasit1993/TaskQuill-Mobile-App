@@ -56,6 +56,8 @@ const Login = ({navigation}) => {
         console.log('response data loginUser ==> ', res);
         if (res?.meta?.rejectedWithValue) {
           ToastAndroid.show(res?.payload, ToastAndroid.LONG);
+        } else {
+          ToastAndroid.show(res?.payload?.message, ToastAndroid.LONG);
         }
       })
       .catch(error => {
