@@ -32,7 +32,6 @@ export const signupSlice = createSlice({
     builder.addCase(signupUser.fulfilled, (state, action) => {
       state.isLoading = false;
       state.data = action.payload;
-      state.error = action.payload;
     });
     builder.addCase(signupUser.rejected, (state, action) => {
       state.isLoading = false;
