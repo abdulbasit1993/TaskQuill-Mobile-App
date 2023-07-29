@@ -49,6 +49,7 @@ const ForgetPassword = ({navigation}) => {
           ToastAndroid.show(res?.payload, ToastAndroid.LONG);
         } else {
           ToastAndroid.show(message, ToastAndroid.LONG);
+          navigation.navigate('ResetPassword', {email: email});
         }
       })
       .catch(err => {

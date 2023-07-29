@@ -8,10 +8,17 @@ import {
 } from 'react-native';
 import {colors} from '../constants/colors';
 
-const CustomButton = ({title, onPress, containerStyles, isLoading}) => {
+const CustomButton = ({
+  title,
+  onPress,
+  containerStyles,
+  isLoading,
+  disabled,
+}) => {
   return (
     <TouchableOpacity
       onPress={onPress}
+      disabled={disabled}
       style={[styles.container, containerStyles]}>
       {isLoading ? (
         <ActivityIndicator size="large" color={colors.WHITE} />
