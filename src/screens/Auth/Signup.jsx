@@ -69,8 +69,10 @@ const Signup = ({navigation}) => {
         console.log('response data signupUser ===>> ', res);
         if (res?.meta?.rejectedWithValue) {
           ToastAndroid.show(res?.payload, ToastAndroid.LONG);
+          return;
         } else {
-          ToastAndroid.show(res?.payload?.message);
+          ToastAndroid.show(res?.payload?.message, ToastAndroid.LONG);
+          navigation.navigate('Login');
         }
       })
       .catch(error => {

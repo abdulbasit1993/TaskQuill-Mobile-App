@@ -6,7 +6,7 @@ import Header from '../components/Header';
 const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Header title="TaskQuill" />
+      <Header title="TaskQuill" menuEnabled />
 
       <View>
         <Text style={{color: colors.WHITE, fontSize: 22}}>Home Screen</Text>

@@ -23,6 +23,7 @@ const ResetPassword = ({navigation, route}) => {
 
   const dispatch = useDispatch();
 
+  const [isLoading, setIsLoading] = useState(false);
   const [otpCode, setOtpCode] = useState('');
   const [password, setPassword] = useState('');
   const [confPassword, setConfPassword] = useState('');
@@ -31,7 +32,32 @@ const ResetPassword = ({navigation, route}) => {
   const [minutes, setMinutes] = useState(15);
   const [seconds, setSeconds] = useState(0);
 
+  const handleResendCode = () => {
+    const dataObj = {
+      email: email,
+    };
+
+    dispatch(forgetPassword(dataObj))
+      .then(res => {
+        console.log('response data forgetPassword ===>> ', res);
+        const message = res?.payload?.message;
+
+        if (res?.meta?.rejectedWithValue) {
+          ToastAndroid.show(res?.payload, ToastAndroid.LONG);
+        } else {
+          setMinutes(15);
+          setSeconds(0);
+          ToastAndroid.show(message, ToastAndroid.LONG);
+        }
+      })
+      .catch(err => {
+        console.log('Error forgetPassword ==>> ', err);
+      });
+  };
+
   const handleSubmit = () => {
+    setIsLoading(true);
+
     const dataObj = {
       email: email,
       otpCode: otpCode,
@@ -40,19 +66,36 @@ const ResetPassword = ({navigation, route}) => {
 
     if (otpCode === '') {
       ToastAndroid.show('OTP Code is Required', ToastAndroid.SHORT);
-      return;
+      return setIsLoading(false);
     } else if (otpCode.length !== 4) {
       ToastAndroid.show('OTP Code should be 4 digits long', ToastAndroid.SHORT);
-      return;
+      return setIsLoading(false);
     }
 
     if (password === '') {
       ToastAndroid.show('Password is Required', ToastAndroid.SHORT);
-      return;
+      return setIsLoading(false);
     } else if (password !== confPassword) {
       ToastAndroid.show('Passwords Do Not Match', ToastAndroid.SHORT);
-      return;
+      return setIsLoading(false);
     }
+
+    dispatch(resetPassword(dataObj))
+      .then(res => {
+        console.log('response data resetPassword ===>> ', res);
+        if (res?.meta?.rejectedWithValue) {
+          ToastAndroid.show(res?.payload, ToastAndroid.LONG);
+          setIsLoading(false);
+        } else {
+          ToastAndroid.show(res?.payload?.message, ToastAndroid.LONG);
+          navigation.navigate('Login');
+          setIsLoading(false);
+        }
+      })
+      .catch(err => {
+        console.log('Error: ', err);
+        setIsLoading(false);
+      });
   };
 
   const formatTime = time => (time < 10 ? `0${time}` : time);
@@ -137,7 +180,7 @@ const ResetPassword = ({navigation, route}) => {
               title={'Submit'}
               disabled={minutes === 0 && seconds === 0 ? true : false}
               onPress={() => handleSubmit()}
-              //   isLoading={isLoading}
+              isLoading={isLoading}
             />
           </View>
 
@@ -151,10 +194,7 @@ const ResetPassword = ({navigation, route}) => {
               }}>
               <CustomButton
                 title="Send Code Again"
-                onPress={() => {
-                  setMinutes(15);
-                  setSeconds(0);
-                }}
+                onPress={() => handleResendCode()}
               />
             </View>
           )}
