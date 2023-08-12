@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {colors} from '../constants/colors';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Header = ({title, menuEnabled}) => {
+const Header = ({title, menuEnabled, onMenuPress}) => {
   return (
     <View style={styles.container}>
       <View
@@ -13,7 +13,7 @@ const Header = ({title, menuEnabled}) => {
           justifyContent: 'center',
         }}>
         {menuEnabled && (
-          <TouchableOpacity>
+          <TouchableOpacity onPress={onMenuPress}>
             <MaterialCommunityIcon name="menu" style={styles.menuIcon} />
           </TouchableOpacity>
         )}
