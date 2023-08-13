@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   ToastAndroid,
+  BackHandler,
 } from 'react-native';
 import Header from '../../components/Header';
 import {colors} from '../../constants/colors';
@@ -58,6 +59,7 @@ const Login = ({navigation}) => {
           ToastAndroid.show(res?.payload, ToastAndroid.LONG);
         } else {
           ToastAndroid.show(res?.payload?.message, ToastAndroid.LONG);
+          navigation.navigate('Root', {screen: 'HomeScreen'});
         }
       })
       .catch(error => {
@@ -67,6 +69,14 @@ const Login = ({navigation}) => {
     if (error != null) {
     }
   };
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => true,
+    );
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

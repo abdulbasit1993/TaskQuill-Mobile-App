@@ -1,10 +1,11 @@
 import 'react-native-gesture-handler';
 import React, {useState, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import MainAppNavigator from './navigators';
 import {store, persistor} from './redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Provider} from 'react-redux';
+import MainAppNavigator from './navigators';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const App = () => {
   return (
