@@ -7,6 +7,7 @@ import forgetPasswordReducer from './slices/forgetPasswordSlice';
 import userProfileReducer from './slices/userProfileSlice';
 import getTaskReducer from './slices/getTaskSlice';
 import addTaskReducer from './slices/addTaskSlice';
+import deleteTaskReducer from './slices/deleteTaskSlice';
 
 const rootReducer = combineReducers({
   loginReducer: loginReducer,
@@ -15,12 +16,18 @@ const rootReducer = combineReducers({
   userProfileReducer: userProfileReducer,
   getTaskReducer: getTaskReducer,
   addTaskReducer: addTaskReducer,
+  deleteTaskReducer: deleteTaskReducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  blacklist: ['signupReducer'],
+  blacklist: [
+    'signupReducer',
+    'getTaskReducer',
+    'addTaskReducer',
+    'deleteTaskReducer',
+  ],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,0 +1,55 @@
+name: Build Android .apk
+
+run-name: 'Building the Android .APK file of React Native Mobile App with pushing a tag'
+
+permissions:
+  contents: write
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: 'gradle'
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Run npm install
+        run: npm install
+
+      - name: Create assets directory
+        run: mkdir ./android/app/src/main/assets
+
+      - name: Generate React Native bundle file
+        run: npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output ./android/app/src/main/assets/index.android.bundle --assets-dest ./android/app/src/main/res/
+
+      - name: Build application
+        run: cd android && ./gradlew assembleDebug
+
+      - name: List the .apks compiled
+        run: ls ./android/app/build/outputs/apk/debug/ -hal
+
+      - name: Rename the .apk to the tag version
+        run: mv ./android/app/build/outputs/apk/debug/app-debug.apk ./android/app/build/outputs/apk/debug/Todo_App_${{ github.ref_name }}.apk
+
+      - name: Create Release and Uploading File
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: android/app/build/outputs/apk/debug/Todo_App_${{ github.ref_name }}.apk

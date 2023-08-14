@@ -21,6 +21,7 @@ const AddNewTask = ({navigation}) => {
   const dispatch = useDispatch();
 
   const token = useSelector(state => state?.loginReducer?.data?.token);
+  const isLoading = useSelector(state => state?.addTaskReducer?.isLoading);
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -66,12 +67,22 @@ const AddNewTask = ({navigation}) => {
   };
 
   const handleSubmit = () => {
+    date.setUTCHours(0);
+    date.setUTCMinutes(0);
+    date.setUTCSeconds(0);
+    date.setUTCMilliseconds(0);
+
+    time.setUTCSeconds(0);
+    time.setUTCMilliseconds(0);
+
     const dataObj = {
       title: title,
       description: description,
-      date: moment(date).format('YYYY-MM-DD'),
-      time: moment(time).format('HH:mm'),
+      date: date,
+      time: time,
     };
+
+    console.log('dataObj ==>> ', dataObj);
 
     if (title == '') {
       return ToastAndroid.show('Title is required', ToastAndroid.SHORT);
@@ -88,8 +99,15 @@ const AddNewTask = ({navigation}) => {
     dispatch(addTask({data: dataObj, token: token}))
       .then(res => {
         console.log('response data addTask ==>> ', res);
-        ToastAndroid.show(res?.data?.message, ToastAndroid.SHORT);
+        ToastAndroid.show(res?.payload?.message, ToastAndroid.SHORT);
         navigation.navigate('Tasks');
+
+        setTitle('');
+        setDescription('');
+        setDate(new Date());
+        setTime(new Date());
+        setIsDateSelected(false);
+        setIsTimeSelected(false);
       })
       .catch(error => {
         console.log('error addTask ==>> ', error);
@@ -174,7 +192,11 @@ const AddNewTask = ({navigation}) => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <CustomButton title={'Submit'} onPress={() => handleSubmit()} />
+            <CustomButton
+              title={'Submit'}
+              onPress={() => handleSubmit()}
+              isLoading={isLoading}
+            />
           </View>
         </View>
       </View>

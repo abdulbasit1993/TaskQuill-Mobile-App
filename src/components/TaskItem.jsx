@@ -5,7 +5,7 @@ import moment from 'moment';
 
 const TaskItem = ({data, onPress}) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity onPress={onPress} style={styles.container}>
       <View style={{width: '75%'}}>
         <View style={{marginBottom: 10}}>
           <Text style={styles.title}>{data?.title}</Text>

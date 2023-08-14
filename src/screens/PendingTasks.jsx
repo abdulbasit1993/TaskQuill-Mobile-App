@@ -10,9 +10,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getTasks} from '../redux/slices/getTaskSlice';
 import TaskItem from '../components/TaskItem';
 import {colors} from '../constants/colors';
+import {useNavigation} from '@react-navigation/native';
 
 const PendingTasks = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const token = useSelector(state => state?.loginReducer?.data?.token);
   const taskData = useSelector(state => state?.getTaskReducer?.data?.data);
@@ -21,7 +23,7 @@ const PendingTasks = () => {
 
   const pendingTasks = taskData?.filter(item => item?.status == 'Pending');
 
-  const latestTasks = pendingTasks.slice().reverse();
+  const latestTasks = pendingTasks?.slice()?.reverse();
 
   console.log('latestTasks ==>> ', latestTasks);
 
@@ -49,7 +51,12 @@ const PendingTasks = () => {
       ) : (
         <FlatList
           data={latestTasks}
-          renderItem={({item}) => <TaskItem data={item} />}
+          renderItem={({item}) => (
+            <TaskItem
+              onPress={() => navigation.navigate('TaskDetail', {data: item})}
+              data={item}
+            />
+          )}
           refreshControl={
             <RefreshControl
               refreshing={isRefreshing}
