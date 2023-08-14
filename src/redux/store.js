@@ -8,6 +8,7 @@ import userProfileReducer from './slices/userProfileSlice';
 import getTaskReducer from './slices/getTaskSlice';
 import addTaskReducer from './slices/addTaskSlice';
 import deleteTaskReducer from './slices/deleteTaskSlice';
+import editTaskReducer from './slices/editTaskSlice';
 
 const rootReducer = combineReducers({
   loginReducer: loginReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   getTaskReducer: getTaskReducer,
   addTaskReducer: addTaskReducer,
   deleteTaskReducer: deleteTaskReducer,
+  editTaskReducer: editTaskReducer,
 });
 
 const persistConfig = {
@@ -27,6 +29,7 @@ const persistConfig = {
     'getTaskReducer',
     'addTaskReducer',
     'deleteTaskReducer',
+    'editTaskReducer',
   ],
 };
 

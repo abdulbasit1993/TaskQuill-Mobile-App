@@ -6,6 +6,7 @@ import UserProfile from '../screens/UserProfile';
 import Tasks from '../screens/Tasks';
 import AddNewTask from '../screens/AddNewTask';
 import TaskDetail from '../screens/TaskDetail';
+import EditTask from '../screens/EditTask';
 import CustomDrawer from '../components/CustomDrawer';
 import {colors} from '../constants/colors';
 
@@ -58,6 +59,14 @@ const HomeStack = () => {
       <Drawer.Screen
         name="TaskDetail"
         component={TaskDetail}
+        options={{
+          drawerItemStyle: {height: 0},
+        }}
+      />
+
+      <Drawer.Screen
+        name="EditTask"
+        component={EditTask}
         options={{
           drawerItemStyle: {height: 0},
         }}

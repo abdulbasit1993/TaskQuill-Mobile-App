@@ -147,7 +147,17 @@ const TaskDetail = ({route, navigation}) => {
           </View>
         </View>
 
-        <View style={{marginTop: 40}}>
+        <View
+          style={{
+            marginTop: 70,
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+          }}>
+          <CustomButton
+            title="Edit"
+            onPress={() => navigation.navigate('EditTask', {data: data})}
+          />
+
           <CustomButton
             title="Delete"
             onPress={() => {
