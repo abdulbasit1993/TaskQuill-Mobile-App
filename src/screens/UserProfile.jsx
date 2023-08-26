@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {colors} from '../constants/colors';
 import Header from '../components/Header';
+import CustomButton from '../components/CustomButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {getUserProfile} from '../redux/slices/userProfileSlice';
 
@@ -43,9 +44,26 @@ const UserProfile = ({navigation}) => {
               paddingVertical: 30,
             }}>
             <View style={{marginBottom: 20}}>
-              <Image source={USER_PLACEHOLDER} style={styles.profileImg} />
+              <Image
+                source={
+                  userData?.profileImage
+                    ? {uri: userData?.profileImage}
+                    : USER_PLACEHOLDER
+                }
+                style={styles.profileImg}
+              />
             </View>
             <Text style={{fontSize: 28, color: colors.WHITE}}>{userName}</Text>
+          </View>
+
+          <View style={{marginBottom: 20}}>
+            <CustomButton
+              title="Edit Profile"
+              onPress={() =>
+                navigation.navigate('EditProfile', {data: userData})
+              }
+              containerStyles={{width: '100%'}}
+            />
           </View>
 
           <View
@@ -151,8 +169,9 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
   profileImg: {
-    width: 140,
-    height: 140,
+    width: 160,
+    height: 160,
+    borderRadius: 160,
   },
   label: {
     color: colors.WHITE,

@@ -33,7 +33,14 @@ const CustomDrawer = props => {
           paddingVertical: 30,
         }}>
         <View style={{marginBottom: 20}}>
-          <Image source={USER_PLACEHOLDER} style={styles.profileImg} />
+          <Image
+            source={
+              userData?.profileImage
+                ? {uri: userData?.profileImage}
+                : USER_PLACEHOLDER
+            }
+            style={styles.profileImg}
+          />
         </View>
 
         <Text style={{fontSize: 20, color: colors.WHITE}}>{userName}</Text>
@@ -86,6 +93,7 @@ const styles = StyleSheet.create({
   profileImg: {
     width: 120,
     height: 120,
+    borderRadius: 160,
   },
   footerSection: {
     marginTop: 'auto',

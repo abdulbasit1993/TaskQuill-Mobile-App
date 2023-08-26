@@ -3,6 +3,7 @@ import {Text} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import HomeScreen from '../screens/HomeScreen';
 import UserProfile from '../screens/UserProfile';
+import EditProfile from '../screens/EditProfile';
 import Tasks from '../screens/Tasks';
 import AddNewTask from '../screens/AddNewTask';
 import TaskDetail from '../screens/TaskDetail';
@@ -67,6 +68,14 @@ const HomeStack = () => {
       <Drawer.Screen
         name="EditTask"
         component={EditTask}
+        options={{
+          drawerItemStyle: {height: 0},
+        }}
+      />
+
+      <Drawer.Screen
+        name="EditProfile"
+        component={EditProfile}
         options={{
           drawerItemStyle: {height: 0},
         }}
